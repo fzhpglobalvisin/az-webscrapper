@@ -8,21 +8,26 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
+    {
+      "src": "/proxy-web-view.*",
+      "dest": "dist/server.cjs"
+    },
     {
       "src": "/api/(.*)",
       "dest": "dist/server.cjs"
     },
     {
-      "src": "/proxy-web-view/(.*)",
-      "dest": "dist/server.cjs"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
   ]
 }
