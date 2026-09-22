@@ -1,27 +1,37 @@
 {
   "version": 2,
-  "functions": {
-    "dist/server.cjs": {
-      "memory": 1024,
-      "maxDuration": 15
+  "builds": [
+    {
+      "src": "dist/server.cjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
-  },
-  "rewrites": [
+  ],
+  "routes": [
     {
-      "source": "/proxy-web-view",
-      "destination": "/dist/server.cjs"
+      "src": "/proxy-web-view",
+      "dest": "dist/server.cjs"
     },
     {
-      "source": "/proxy-web-view/(.*)",
-      "destination": "/dist/server.cjs"
+      "src": "/proxy-web-view/(.*)",
+      "dest": "dist/server.cjs"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/dist/server.cjs"
+      "src": "/api/(.*)",
+      "dest": "dist/server.cjs"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
