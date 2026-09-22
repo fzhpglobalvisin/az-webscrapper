@@ -19,7 +19,20 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 1600,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('xlsx')) return 'vendor-excel';
+              if (id.includes('@google/genai')) return 'vendor-genai';
+              if (id.includes('lucide-react')) return 'vendor-icons';
+              if (id.includes('motion')) return 'vendor-motion';
+              return 'vendor-core';
+            }
+          },
+        },
+      },
     },
     server: {
       port: 3000,
